@@ -1,6 +1,7 @@
 require 'student_directory2'
 
 describe  "Student Directory TDD Project" do 
+	let(:student){{:name => "David", :cohort => :June, :hobby => "running"}}
 	context 'print information' do
 		it "prints header here" do
 			header = "The students of Makers Academy\n======================================="
@@ -19,7 +20,7 @@ describe  "Student Directory TDD Project" do
 			allow(self).to receive(:puts).with "1. Input the students\n2. Show the students\n3. Save the list to students.csv\n4. Load the list from students.csv\n9. Exit"
 			expect(self).to receive(:gets).and_return(choice)
 			expect(interactive_menu).to eq "1"
-		end
+		end	
 
 		it 'knows that 1 is a number' do 
 			expect(number_exists?("1")).to be_truthy
@@ -33,12 +34,17 @@ describe  "Student Directory TDD Project" do
 			expect(self).to receive(:student_name)
 			expect(self).to receive(:student_hobby)
 			expect(self).to receive(:student_cohort)
-			ask_all_questions
+			menu_choice("1")
+		end
+
+		it 'when user inputs 3' do 
+			expect(self).to receive(:save).with(student_list)
+			menu_choice("3")
 		end
 
 		it 'when user inputs 9' do 
 			expect(self).to receive(:exit)
-			end_programme
+			menu_choice("9")
 		end
 	end
 
@@ -48,13 +54,11 @@ describe  "Student Directory TDD Project" do
 		end
 
 		it "adds a student" do 
-			student = {:name => "David", :cohort => :June, :hobby => "running"}
 			add(student)
 			expect(student_list).to eq [student]
 		end
 
 		it 'takes a student' do 
-			student = {name: "David", cohort: :June, :hobby => "running"}
 			expect(student_to_s(student)).to eq 'David who likes running in the June cohort' 
 		end
 
@@ -104,6 +108,29 @@ describe  "Student Directory TDD Project" do
 			expect(student_cohort).to eq 'You entered the wrong month name!'
 		end
 	end
+
+	context 'Saving and loading files' do 
+		it 'transforms a student into csv' do 
+		expect(student_to_csv(student)).to eq ['David', :June, "running"]
+		end 
+
+		it 'saves the students' do 
+			students = [student]
+			csv = double
+			expect(csv).to receive(:<<).with(student_to_csv(student))
+			expect(CSV).to receive(:open).with('../students.csv', 'wb').and_yield(csv)
+			save(students)
+		end
+
+		it 'loads the students' do 
+			students = [student]
+			row = ['David', :June, 'running']
+			expect(student_list).to receive(:<<).with(create_student(student[:name], student[:cohort], student[:hobby]))
+			expect(CSV).to receive(:foreach).with('../students.csv', 'r').and_yield(row)
+			load_students
+		end
+	end
+
 
 	context 'outputting everything' do 
 		it 'outputs everything' do 

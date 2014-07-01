@@ -1,5 +1,5 @@
 require 'date'
-
+require 'CSV'
 # print information
 def print_header
 	"The students of Makers Academy\n======================================="
@@ -41,10 +41,11 @@ def menu_choice(number)
 			ask_all_questions
 		when "2"
 			print_students
+		when "3"
+			save(student_list)
 		when "9"
 			end_programme
 		else
-			
 	end
 end
 
@@ -95,11 +96,34 @@ def month_exists?(month)
 	Date::MONTHNAMES.include?(month.downcase.capitalize)
 end
 
+#saving and loading files
+def student_to_csv(student)
+	student.values
+end
+
+def save(students)
+	CSV.open("../students.csv", "wb") do |csv|
+		students.each do |student|
+		csv << student_to_csv(student)
+		end
+	end
+end
+
+def create_student(name, cohort, hobby)
+	{name: name, cohort: cohort, hobby: hobby} 
+end
+
+def load_students
+	CSV.foreach("../students.csv", "r") do |row|
+		student_list << create_student(row[0], row[1], row[2])
+	end
+end
+
 # outputting everything
 def print_everything
-	print_header
-	print_students
-	print_footer
+	puts print_header
+	puts print_students
+	puts print_footer
 end
 
 
