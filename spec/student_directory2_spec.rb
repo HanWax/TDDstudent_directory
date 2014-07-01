@@ -129,7 +129,7 @@ describe  "Student Directory TDD Project" do
 
 		it 'loads the students' do 
 			students = [student]
-			row = ['David', :June, 'running']
+			row = ['David', 'running', :June]
 			expect(student_list).to receive(:<<).with(create_student(student[:name], student[:cohort], student[:hobby]))
 			expect(CSV).to receive(:foreach).with('../students.csv', 'r').and_yield(row)
 			load_students

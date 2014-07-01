@@ -111,13 +111,15 @@ def save(students)
 	end
 end
 
-def create_student(name, cohort, hobby)
-	{name: name, cohort: cohort, hobby: hobby} 
+def create_student(name, hobby, cohort)
+	{name: name, hobby: hobby, cohort: cohort} 
 end
 
 def load_students
 	CSV.foreach("../students.csv", "r") do |row|
+		puts row
 		student_list << create_student(row[0], row[1], row[2])
+		p row 
 	end
 end
 
