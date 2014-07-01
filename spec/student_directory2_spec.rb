@@ -12,12 +12,37 @@ describe  "Student Directory TDD Project" do
 	 		expect(print_footer).to eq footer
 		end
 
-		it 'asks for all information' do
+	end
+	context 'interactive menu' do 
+		it 'print interactive menu' do 
+			choice = "1\n"  
+			allow(self).to receive(:puts).with "1. Input the students\n2. Show the students\n3. Save the list to students.csv\n4. Load the list from students.csv\n9. Exit"
+			expect(self).to receive(:gets).and_return(choice)
+			expect(interactive_menu).to eq "1"
+		end
 
+		it 'knows that 1 is a number' do 
+			expect(number_exists?("1")).to be_truthy
+		end
+
+		it 'knows that "p" is not a number' do 
+			expect(number_exists?("p")).to eq nil
+		end
+
+		it 'when user inputs 1' do  
+			expect(self).to receive(:student_name)
+			expect(self).to receive(:student_hobby)
+			expect(self).to receive(:student_cohort)
+			ask_all_questions
+		end
+
+		it 'when user inputs 9' do 
+			expect(self).to receive(:exit)
+			end_programme
 		end
 	end
 
-	context 'student directory' do
+	context 'adding and taking students' do
 		it "has no students" do
 			expect(student_list).to eq []
 		end
@@ -42,7 +67,7 @@ describe  "Student Directory TDD Project" do
 		end
 	end
 
-	context 'user for input' do 
+	context 'ask user for input' do 
 
 		it "ask user for student name" do 
 			name = "David\n"
