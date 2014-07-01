@@ -79,4 +79,16 @@ describe  "Student Directory TDD Project" do
 			expect(student_cohort).to eq 'You entered the wrong month name!'
 		end
 	end
+
+	context 'outputting everything' do 
+		it 'outputs everything' do 
+			%w{David Chloe Zoe}.each do |name|
+				add({name: name, cohort: :June, hobby: "running"})
+			end
+			expect(self).to receive(:print_header)
+			expect(self).to receive(:print_students)
+			expect(self).to receive(:print_footer)
+			print_everything
+		end
+	end
 end

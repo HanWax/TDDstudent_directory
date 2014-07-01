@@ -16,19 +16,21 @@ def add(student)
 	student_list << student
 end
 
+def get_input(question)
+	puts "What's your #{question}?"
+	gets.chomp
+end
+
 def student_name
-	puts "What's your name?"
-	name = gets.chomp
+	get_input("name")
 end
 
 def student_hobby
-	puts "What's your hobby?"
-	hobby = gets.chomp
+	get_input("hobby")
 end
 
 def student_cohort
-	puts "What's your cohort?"
-	month = gets.chomp
+	month = get_input("cohort")
 	return 'You entered the wrong month name!' unless month_exists?(month)
 	month
 end
@@ -49,4 +51,10 @@ end
 
 def print_students
 	puts list_of_students
+end
+
+def print_everything
+	print_header
+	print_students
+	print_footer
 end
