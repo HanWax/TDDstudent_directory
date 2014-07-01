@@ -43,6 +43,8 @@ def menu_choice(number)
 			print_students
 		when "3"
 			save(student_list)
+		when "4"
+			load_students
 		when "9"
 			end_programme
 		else

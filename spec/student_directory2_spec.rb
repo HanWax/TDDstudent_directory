@@ -42,6 +42,11 @@ describe  "Student Directory TDD Project" do
 			menu_choice("3")
 		end
 
+		it 'when user inputs 4' do 
+			expect(self).to receive(:load_students)
+			menu_choice("4")
+		end
+
 		it 'when user inputs 9' do 
 			expect(self).to receive(:exit)
 			menu_choice("9")
